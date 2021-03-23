@@ -13,21 +13,25 @@ export class SpotifyService {
   }
 
   getQuery(query: string) {
-    const url = `https://api.spotify.com/v1${ query }`;
+    const url = `https://api.spotify.com/v1/${ query }`;
     const headers = new HttpHeaders({
-      Authorization: 'Bearer BQCGiHwAsT5I60sSVD2SW-wEVjwpaB4Fe0ATpE73i40_w8JxgVJ-eaBj-KWCzUYXqG3SWDwQ5M77z93tG9I'
+      Authorization: 'Bearer BQDYhQZjWo2imGJShYV9QTkoJNORMrmeiKZCGUm-DIGgjwN3iHh4bIFAKD6HOCqiR5Zm8CVW90fISJsbv6c'
     });
     return this.http.get(url, { headers });
   }
 
   getNewReleases(): Observable<any> {
-    return this.getQuery('/browse/new-releases?limit=20')
+    return this.getQuery('browse/new-releases?limit=20')
       .pipe(map((data: any) => data.albums.items));
   }
 
 
   getArtists(artist: string): Observable<any> {
-    return this.getQuery(`/search?q=${ artist }&type=artist&market=CL&limit=15`)
+    return this.getQuery(`search?q=${ artist }&type=artist&market=CL&limit=15`)
       .pipe(map((data: any) => data.artists.items));
+  }
+
+  getArtist(id: string) {
+    return this.getQuery(`artists/${ id }`);
   }
 }
